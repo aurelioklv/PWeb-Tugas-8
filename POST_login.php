@@ -7,8 +7,8 @@ if (isset($_POST['daftar'])) {
     $permission = '';
     $user_id = '';
 
-    $name = $_POST["name"];
-    $password = $_POST["password"];
+    $name = mysqli_real_escape_string($db, $_POST['name']);
+    $password = mysqli_real_escape_string($db, $_POST['password']);
 
     if ($name == "admin") {
         if ($password == "admin") {

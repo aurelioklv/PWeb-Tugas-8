@@ -5,8 +5,8 @@ include("config.php");
 // Button 'kirim' onClick
 if (isset($_POST['kirim'])) {
 
-    $user_id = $_POST['user_id'];
-    $content = $_POST['pesan'];
+    $user_id = mysqli_real_escape_string($db, $_POST['user_id']);
+    $content = mysqli_real_escape_string($db, $_POST['content']);
 
     $sql = "INSERT INTO ucapan (user_id, content) VALUE ('$user_id', '$content')";
     $query = mysqli_query($db, $sql);
@@ -22,6 +22,7 @@ if (isset($_POST['kirim'])) {
     } else {
         $ret = array(
             'success' => false,
+            "message" => "Failed to add ucapan"
         );
         echo json_encode($ret);
     }
