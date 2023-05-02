@@ -2,13 +2,15 @@
   session_start();
   
   // Belum login, redirect ke halaman login
-  if (!isset($_SESSION['login']) || !isset($_SESSION['ret'])) {
+  if (!isset($_SESSION['loginInfo'])) {
     header("Location: login-page.php");
     exit;
   }
 
+  $loginInfo = $_SESSION['loginInfo'];
+
   // Bukan admin, redirect ke halaman user
-  if ($_SESSION['ret']['permission'] != 'admin') {
+  if ($loginInfo['permission'] != 'admin') {
     header("Location: user-home.php");
     exit;
   }

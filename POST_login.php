@@ -37,14 +37,12 @@ if (isset($_POST['login'])) {
             'message' => 'Succesfully logged in'
         );
         if($permission != 'admin'){
-          $_SESSION['login'] = true;
-          $_SESSION['ret'] = $ret;
+          $_SESSION['loginInfo'] = $ret;
           header("Location: user-home.php");
           exit;
         }
         // echo json_encode($ret);
-        $_SESSION['ret'] = $ret;
-        $_SESSION['login'] = true;
+        $_SESSION['loginInfo'] = $ret;
         header("Location: admin-home.php");
         exit;
     } else {
@@ -52,7 +50,7 @@ if (isset($_POST['login'])) {
             'success' => false,
             'message' => 'Invalid username or password'
         );
-        $_SESSION['ret'] = $ret;
+        $_SESSION['loginAttempt'] = $ret;
         echo json_encode($ret);
     }
 

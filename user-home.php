@@ -3,21 +3,21 @@
   include("config.php");
   
   // Belum login, redirect ke halaman login
-  if (!isset($_SESSION['login']) || !isset($_SESSION['ret'])) {
+  if (!isset($_SESSION['loginInfo'])) {
     header("Location: login-page.php");
     exit;
   }
   
-  $ret = $_SESSION['ret'];
+  $loginInfo = $_SESSION['loginInfo'];
 
   // Admin tidak bisa membuka halaman user
   // Bukan user, redirect ke halaman admin
-  if ($ret['permission'] != 'user') {
+  if ($loginInfo['permission'] != 'user') {
     header("Location: admin-home.php");
     exit;
   }
   $name = '';
-  $sql = "SELECT * FROM user WHERE user_id = '" . $ret['user_id'] . "'";
+  $sql = "SELECT * FROM user WHERE user_id = '" . $loginInfo['user_id'] . "'";
   $query = mysqli_query($db, $sql);
   if (mysqli_num_rows($query)) {
     $row = mysqli_fetch_array($query);
