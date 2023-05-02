@@ -7,8 +7,8 @@ if (isset($_POST['daftar'])) {
     $permission = '';
     $user_id = '';
 
-    $name = mysqli_real_escape_string($db, $_POST['name']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
+    $name = $_POST["name"];
+    $password = $_POST["password"];
 
     if ($name == "admin") {
         if ($password == "admin") {
@@ -19,8 +19,8 @@ if (isset($_POST['daftar'])) {
     if ($permission == '') {
         $sql = "SELECT * FROM user WHERE name = '" . $name . "'";
         $query = mysqli_query($db, $sql);
-        if (mysqli_num_rows($select)) {
-            $row = mysqli_fetch_array($select);
+        if (mysqli_num_rows($query)) {
+            $row = mysqli_fetch_array($query);
 
             if ($row['password'] == $password) {
                 $user_id = strval($row['user_id']);
@@ -36,7 +36,13 @@ if (isset($_POST['daftar'])) {
             'permission' => $permission,
             'message' => 'Succesfully logged in'
         );
-        echo json_encode($ret);
+        if($permission != 'admin'){
+          header("Location: user-home.php");
+          exit;
+        }
+        // echo json_encode($ret);
+        header("Location: admin-home.php");
+        exit;
     } else {
         $ret = array(
             'success' => false,
