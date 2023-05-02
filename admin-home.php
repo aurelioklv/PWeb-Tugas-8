@@ -1,3 +1,18 @@
+<?php 
+  session_start();
+  
+  // Belum login, redirect ke halaman login
+  if (!isset($_SESSION['login']) || !isset($_SESSION['ret'])) {
+    header("Location: login-page.php");
+    exit;
+  }
+
+  // Bukan admin, redirect ke halaman user
+  if ($_SESSION['ret']['permission'] != 'admin') {
+    header("Location: user-home.php");
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

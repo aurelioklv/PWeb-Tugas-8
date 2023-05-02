@@ -1,9 +1,9 @@
 <?php
-
+session_start();
 include("config.php");
 
-// Button 'daftar' onClick
-if (isset($_POST['daftar'])) {
+// Button 'login' onClick
+if (isset($_POST['login'])) {
     $permission = '';
     $user_id = '';
 
@@ -37,10 +37,14 @@ if (isset($_POST['daftar'])) {
             'message' => 'Succesfully logged in'
         );
         if($permission != 'admin'){
+          $_SESSION['login'] = true;
+          $_SESSION['ret'] = $ret;
           header("Location: user-home.php");
           exit;
         }
         // echo json_encode($ret);
+        $_SESSION['ret'] = $ret;
+        $_SESSION['login'] = true;
         header("Location: admin-home.php");
         exit;
     } else {
@@ -48,6 +52,7 @@ if (isset($_POST['daftar'])) {
             'success' => false,
             'message' => 'Invalid username or password'
         );
+        $_SESSION['ret'] = $ret;
         echo json_encode($ret);
     }
 

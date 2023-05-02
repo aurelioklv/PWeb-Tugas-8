@@ -8,10 +8,10 @@
   <title>Login Form</title>
 </head>
 <body class="d-flex flex-column align-items-center">
-  <h2>Login Form</h2>
+  <h2>Signup Form</h2>
 
   <div class="container w-50">
-    <form action="POST_login.php" method="post">
+    <form action="POST_signup.php" method="post">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" name="name" id="name">
@@ -20,11 +20,11 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" name="password" id="password">
       </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      <div class="mb-3">
+        <label for="confirmation-password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="confirm_password" id="confirmation-password">
       </div>
-      <button type="submit" name="login" class="btn btn-primary">Submit</button>
+      <button type="submit" name="daftar" class="btn btn-primary">Submit</button>
     </form>
   </div>
 

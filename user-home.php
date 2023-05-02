@@ -1,3 +1,29 @@
+<?php 
+  session_start();
+  include("config.php");
+  
+  // Belum login, redirect ke halaman login
+  if (!isset($_SESSION['login']) || !isset($_SESSION['ret'])) {
+    header("Location: login-page.php");
+    exit;
+  }
+  
+  $ret = $_SESSION['ret'];
+
+  // Admin tidak bisa membuka halaman user
+  // Bukan user, redirect ke halaman admin
+  if ($ret['permission'] != 'user') {
+    header("Location: admin-home.php");
+    exit;
+  }
+  $name = '';
+  $sql = "SELECT * FROM user WHERE user_id = '" . $ret['user_id'] . "'";
+  $query = mysqli_query($db, $sql);
+  if (mysqli_num_rows($query)) {
+    $row = mysqli_fetch_array($query);
+    $name = $row['name'];
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +39,7 @@
     <div class="container-fluid">
       <div class="d-flex align-items-center gap-3">
           <img src="img/user-icon.png" alt="Logo" width="50" height="50">
-          <h4>User</h4>
+          <h4><?= $name; ?></h4>
       </div>
       <a class="btn btn-danger" href="logout.php">log out</a>
     </div>
