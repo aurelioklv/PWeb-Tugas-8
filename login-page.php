@@ -1,3 +1,17 @@
+<?php
+  session_start();
+  
+  // Sudah login, redirect ke halaman user/admin
+  if (isset($_SESSION['loginInfo'])) {
+    $loginInfo = $_SESSION['loginInfo'];
+    if($loginInfo['permision'] != 'admin'){
+      header("Location: user-home.php");
+      exit;
+    }
+    header("Location: admin-home.php");
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html>
 <head>
