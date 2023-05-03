@@ -27,18 +27,18 @@
   <div class="container w-50">
     <form action="POST_signup.php" method="post">
       <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" name="name" id="name">
+        <label for="name" class="form-label">Nama</label>
+        <input type="text" class="form-control" name="name" id="name" required maxlength="60">
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" id="password">
+        <input type="password" class="form-control" name="password" id="password" required minlength="6" maxlength="12">
       </div>
       <div class="mb-3">
         <label for="confirmation-password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="confirm_password" id="confirmation-password">
+        <input type="password" class="form-control" name="confirm_password" id="confirmation-password" required minlength="6" maxlength="12">
       </div>
-      <button type="submit" name="daftar" class="btn btn-primary">Submit</button>
+      <button type="submit" name="daftar" class="btn btn-primary">Daftar</button>
     </form>
   </div>
 
