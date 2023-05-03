@@ -21,8 +21,9 @@ if (isset($_POST['login'])) {
         $query = mysqli_query($db, $sql);
         if (mysqli_num_rows($query)) {
             $row = mysqli_fetch_array($query);
+            $encrypted_password = $row['password'];
 
-            if ($row['password'] == $password) {
+            if (password_verify($password, $encrypted_password)) {
                 $user_id = strval($row['user_id']);
                 $permission = 'user';
             }
