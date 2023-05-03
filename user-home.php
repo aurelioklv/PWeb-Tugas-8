@@ -45,7 +45,7 @@
     </div>
   </nav>
   <h1>Yuk kirim ucapan</h1>
-  <form action="post">
+  <form action="POST_ucapan.php" method="post">
     <label for="ucapan">Ucapan</label>
     <input type="text" name="content" id="ucapan">
 
