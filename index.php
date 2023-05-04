@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['loginInfo'])) {
+    header('Location: login-page.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
