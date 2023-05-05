@@ -32,7 +32,7 @@ if (isset($_POST['daftar'])) {
 
     // Insert user baru ke database
     $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO user (name, createdAt, permission, password) VALUES ('" . $name . "', CURDATE(), 'user', '" . $encrypted_password . "')";
+    $sql = "INSERT INTO user (name, permission, password) VALUES ('" . $name . "', 'user', '" . $encrypted_password . "')";
     $query = mysqli_query($db, $sql);
 
     if ($query) {
