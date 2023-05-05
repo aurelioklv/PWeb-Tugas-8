@@ -17,11 +17,13 @@
     exit;
   }
   $name = '';
+  $user_id = 0;
   $sql = "SELECT * FROM user WHERE user_id = '" . $loginInfo['user_id'] . "'";
   $query = mysqli_query($db, $sql);
   if (mysqli_num_rows($query)) {
     $row = mysqli_fetch_array($query);
     $name = $row['name'];
+    $user_id = $row['user_id'];
   }
 ?>
 <!DOCTYPE html>
@@ -67,48 +69,38 @@
     </div>
   </form>
 
-  <!-- Tampilkan semua pesan yang pernah dikirim beserta balasannya -->
+    <!-- Tampilkan semua pesan yang pernah dikirim beserta balasannya -->
+    <!-- Mengambil data dari database -->
+  <?php
+    $query = "SELECT u.id, u.content, u.createdAt, r.content AS replyContent 
+              FROM ucapan u 
+              LEFT JOIN reply r ON u.id = r.ucapan_id 
+              INNER JOIN user ON u.user_id = user.user_id
+              WHERE u.user_id = '" . $user_id . "'";
+    $result = mysqli_query($db, $query);
+  ?>
+  <!-- Menampilkan data pesan -->
   <div class="container pt-5 mt-5">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      <div class="col">
-        <div class="card">
-          <?php $isReplied = false; ?>
-          <div class="card-header <?php echo $isReplied ? 'bg-success' : 'bg-warning'; ?>">
-            <?php echo $isReplied ? 'Dibalas' : 'Belum dibalas'; ?>
-          </div>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, perferendis.</p>
-            <?php if ($isReplied) { ?>
-              <p class="card-text text-end">Balasan dari admin</p>
-            <?php }?>
-          </div>
-          <div class="card-footer text-muted">
-            Dikirim pada 3 Mei 2023
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <?php $isReplied = true; ?>
-          <div class="card-header <?php echo $isReplied ? 'bg-success' : 'bg-warning'; ?>">
-            <?php echo $isReplied ? 'Dibalas' : 'Belum dibalas'; ?>
-          </div>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, perferendis.</p>
-            <?php if (!$isReplied) { ?>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reply-modal-<ucapan_id>">
-                  Balas
-              </button>
-            <?php } else { ?>
-              <hr>
-              <p class="card-text text-end">ingfo diterima, nice ingfo</p>
-            <?php } ?>
-          </div>
-          <div class="card-footer text-muted">
-            Dikirim pada 3 Mei 2023
+      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <div class="col">
+          <div class="card">
+            <?php $isReplied = !empty($row['replyContent']); ?>
+            <div class="card-header <?php echo $isReplied ? 'bg-success' : 'bg-warning'; ?>">
+              <?php echo $isReplied ? 'Dibalas' : 'Belum dibalas'; ?>
+            </div>
+            <div class="card-body">
+              <p class="card-text"><?php echo $row['content']; ?></p>
+              <?php if ($isReplied) { ?>
+                <p class="card-text text-end"><?php echo $row['replyContent']; ?></p>
+              <?php } ?>
+            </div>
+            <div class="card-footer text-muted">
+              Dikirim pada <?php echo date('d F Y', strtotime($row['createdAt'])); ?>
+            </div>
           </div>
         </div>
-      </div>
+      <?php } ?>
     </div>
   </div>
 </body>

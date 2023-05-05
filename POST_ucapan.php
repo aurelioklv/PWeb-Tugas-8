@@ -20,12 +20,14 @@ if (isset($_POST['kirim'])) {
             'ucapan_id' => $ucapan_id
         );
         echo json_encode($ret);
+        header('Location:user-home.php');
     } else {
         $ret = array(
             'success' => false,
             "message" => "Failed to add ucapan"
         );
         echo json_encode($ret);
+        header('Location:user-home.php');
     }
 } else {
     die("You are not authorized");

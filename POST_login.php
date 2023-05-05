@@ -6,6 +6,7 @@ include("config.php");
 if (isset($_POST['login'])) {
     $permission = '';
     $user_id = '';
+    $id_user = '';
 
     $name = $_POST["name"];
     $password = $_POST["password"];
@@ -39,10 +40,11 @@ if (isset($_POST['login'])) {
         );
         if($permission != 'admin'){
           $_SESSION['loginInfo'] = $ret;
+          echo json_encode($ret);
           header("Location: user-home.php");
           exit;
         }
-        // echo json_encode($ret);
+        echo json_encode($ret);
         $_SESSION['loginInfo'] = $ret;
         header("Location: admin-home.php");
         exit;

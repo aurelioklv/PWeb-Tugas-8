@@ -36,7 +36,7 @@
         <input type="password" class="form-control" name="password" id="password" required minlength="6" maxlength="12">
       </div>
       <div class="mb-3">
-        <label for="confirmation-password" class="form-label">Password</label>
+        <label for="confirmation-password" class="form-label">Confirm Password</label>
         <input type="password" class="form-control" name="confirm_password" id="confirmation-password" required minlength="6" maxlength="12">
       </div>
       <button type="submit" name="daftar" class="btn btn-primary">Daftar</button>
