@@ -1,14 +1,15 @@
 <?php
-
+session_start();
 include("config.php");
 
-// Button 'daftar' onClick
-if (isset($_POST['daftar'])) {
+// Button 'login' onClick
+if (isset($_POST['login'])) {
     $permission = '';
     $user_id = '';
+    $id_user = '';
 
-    $name = mysqli_real_escape_string($db, $_POST['name']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
+    $name = $_POST["name"];
+    $password = $_POST["password"];
 
     if ($name == "admin") {
         if ($password == "admin") {
@@ -19,10 +20,11 @@ if (isset($_POST['daftar'])) {
     if ($permission == '') {
         $sql = "SELECT * FROM user WHERE name = '" . $name . "'";
         $query = mysqli_query($db, $sql);
-        if (mysqli_num_rows($select)) {
-            $row = mysqli_fetch_array($select);
+        if (mysqli_num_rows($query)) {
+            $row = mysqli_fetch_array($query);
+            $encrypted_password = $row['password'];
 
-            if ($row['password'] == $password) {
+            if (password_verify($password, $encrypted_password)) {
                 $user_id = strval($row['user_id']);
                 $permission = 'user';
             }
@@ -36,12 +38,22 @@ if (isset($_POST['daftar'])) {
             'permission' => $permission,
             'message' => 'Succesfully logged in'
         );
+        if($permission != 'admin'){
+          $_SESSION['loginInfo'] = $ret;
+          echo json_encode($ret);
+          header("Location: user-home.php");
+          exit;
+        }
         echo json_encode($ret);
+        $_SESSION['loginInfo'] = $ret;
+        header("Location: admin-home.php");
+        exit;
     } else {
         $ret = array(
             'success' => false,
             'message' => 'Invalid username or password'
         );
+        $_SESSION['loginAttempt'] = $ret;
         echo json_encode($ret);
     }
 

@@ -1,11 +1,12 @@
 <?php
+session_start();
 
 include("config.php");
 
 // Button 'kirim' onClick
 if (isset($_POST['kirim'])) {
 
-    $user_id = mysqli_real_escape_string($db, $_POST['user_id']);
+    $user_id = mysqli_real_escape_string($db, $_SESSION['loginInfo']['user_id']);
     $content = mysqli_real_escape_string($db, $_POST['content']);
 
     $sql = "INSERT INTO ucapan (user_id, content) VALUE ('$user_id', '$content')";
@@ -19,12 +20,14 @@ if (isset($_POST['kirim'])) {
             'ucapan_id' => $ucapan_id
         );
         echo json_encode($ret);
+        header('Location:user-home.php');
     } else {
         $ret = array(
             'success' => false,
             "message" => "Failed to add ucapan"
         );
         echo json_encode($ret);
+        header('Location:user-home.php');
     }
 } else {
     die("You are not authorized");
